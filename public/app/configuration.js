@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const Store = require('electron-store');
+const store = new Store();
+
 const templatePrivate = {
   environment: 'development',
   defaultPrecision: 2,
@@ -17,30 +20,20 @@ const templateConfig = {
   }
 };
 
-const PRIVATE = 'private.config.json';
-const BOT = 'config.json';
+const PRIVATE = 'private';
+const BOT = 'bot';
 
-const getConfiguration = (file, template = '') => {
-  const filenameWithPath = path.join(__dirname, file);
-  if(fs.existsSync(filenameWithPath)) {
-    const configuration = JSON.parse(fs.readFileSync(filenameWithPath, 'utf8'));
-    return configuration;
+const getConfiguration = (key, template = '') => {
+  if(store.get(key, false)) {
+    return store.get(key, false);
   }
 
-  console.log(`Missing configuration file: ${filenameWithPath}. Creating new default configuration.`);
-  fs.writeFileSync(filenameWithPath, JSON.stringify(template, null, 2) , 'utf-8');
+  store.set(key, template);
   return template;
 }
 
-const updateConfiguration = (file, configuration) => {
-  const filenameWithPath = path.join(__dirname, file);
-  if(fs.existsSync(filenameWithPath)) {
-    console.log(`Missing configuration file: ${filenameWithPath}. Creating new default configuration.`);
-    fs.writeFileSync(filenameWithPath, JSON.stringify(configuration, null, 2) , 'utf-8');
-    return true;
-  }
-
-  return false;
+const updateConfiguration = (key, configuration) => {
+  store.set(key, configuration);
 }
 
 const privateConfig = getConfiguration(PRIVATE, templatePrivate);
