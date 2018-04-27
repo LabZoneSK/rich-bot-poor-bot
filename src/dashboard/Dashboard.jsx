@@ -1,4 +1,5 @@
 import React from 'react';
+import { electronVariables } from '../electron-context';
 
 import Button  from '../components/Button';
 import Panel from '../components/Panel';
@@ -20,9 +21,16 @@ class Dashboard extends React.Component {
   }
 
   handleBotButton() {
+    if (this.state.botStarted) {
+      electronVariables.remote.getGlobal('sharedObj').bot.stop();
+    } else {
+      electronVariables.remote.getGlobal('sharedObj').bot.start();
+    }
+
     this.setState(prevState => ({
       botStarted: !prevState.botStarted
     }));
+    
   }
 
   render() {

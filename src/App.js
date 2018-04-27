@@ -25,19 +25,6 @@ class App extends Component {
       bot: remote.getGlobal('sharedObj').bot,
       counter: 0
     };
-
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    
-    //ipcRenderer.send('start-bot');
-    (this.state.counter % 2 === 0) ? this.state.bot.start() : this.state.bot.stop();
-    this.setState({
-      counter: this.state.counter + 1
-    });
   }
 
   render() {
@@ -58,8 +45,6 @@ class App extends Component {
                       </ul>
                     </div>
                   </nav>
-
-                  <span onClick={this.handleClick} >TEST ME</span>
               </div>
 
               <div className="App-MainContent">
