@@ -1,0 +1,26 @@
+.Title-icon img {
+  height: 60px;
+  width: 60px;
+}
+
+.Title-text {
+  margin-left: 24px;
+}
+
+.Title-text h2 {
+  position: relative;
+  bottom: 8px;
+  margin-bottom: 0px;
+}
+
+.Title-text small {
+  position: relative;
+  bottom: 4px;
+}
+
+.ViewTitle {
+  display:flex;
+  flex-direction: row;
+  border-bottom: 1px solid #3d404c;
+  padding-bottom: 16px;
+}

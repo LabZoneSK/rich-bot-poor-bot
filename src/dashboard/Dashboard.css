@@ -1,0 +1,8 @@
+.Dashboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.Dashboard-Toolbar {
+  margin: 16px 0;
+}
