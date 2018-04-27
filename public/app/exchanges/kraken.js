@@ -1,7 +1,8 @@
 const KrakenClient = require('kraken-api');
-const private = require('../private.config.js');
 
-const kraken = new KrakenClient(private.APIKey, private.APISign, {
+const { privateConfig } = require('../configuration');
+
+const kraken = new KrakenClient(privateConfig.APIKey, privateConfig.APISign, {
   timeout: process.env.Timeout || 50000,
 });
 

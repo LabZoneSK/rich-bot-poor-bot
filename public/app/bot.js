@@ -1,7 +1,7 @@
 const cc = require('./utils/cc');
 const config = require('./config');
 const kraken = require('./exchanges/kraken');
-const private = require('./private.config');
+const { privateConfig } = require('./configuration');
 
 let botRunning = false;
 let botIntervalID;
@@ -9,7 +9,7 @@ let balance = null;
 
 const botLog = [];
 
-const sell =  (amount, symbol, price, precision = private.defaultPrecision) => {
+const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision) => {
   console.log(amount);
   if (amount && parseFloat(amount).toFixed(3) > 0) {
     console.log(`I am going to sell ${symbol} for ${price}. Amount is ${amount}`);
@@ -22,7 +22,7 @@ const sell =  (amount, symbol, price, precision = private.defaultPrecision) => {
     //Price precision needs to be fixed based on requirements from Kraken. For example> BTC precision must be 2.
     const sellPrice = Number(price).toFixed(precision) || price;
 
-    if (private.environment === 'production') {
+    if (privateConfig.environment === 'production') {
       kraken.placeOrder(`${symbol}EUR`, 'sell', 'market', sellPrice, amount).then((data) => {
           if (data.descr) {
             return data.descr;

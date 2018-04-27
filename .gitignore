@@ -61,8 +61,8 @@ typings/
 build
 
 #Public
-public/app/config.js
-public/app/private.config.js
+public/app/config.json
+public/app/private.config.json
 
 #Dist folder
 dist
