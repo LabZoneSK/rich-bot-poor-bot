@@ -17,6 +17,9 @@ const templateConfig = {
   }
 };
 
+const PRIVATE = 'private.config.json';
+const BOT = 'config.json';
+
 const getConfiguration = (file, template = '') => {
   const filenameWithPath = path.join(__dirname, file);
   if(fs.existsSync(filenameWithPath)) {
@@ -29,11 +32,25 @@ const getConfiguration = (file, template = '') => {
   return template;
 }
 
-const privateConfig = getConfiguration('private.config.json', templatePrivate);
-const botConfig = getConfiguration('config.json', templateConfig);
+const updateConfiguration = (file, configuration) => {
+  const filenameWithPath = path.join(__dirname, file);
+  if(fs.existsSync(filenameWithPath)) {
+    console.log(`Missing configuration file: ${filenameWithPath}. Creating new default configuration.`);
+    fs.writeFileSync(filenameWithPath, JSON.stringify(configuration, null, 2) , 'utf-8');
+    return true;
+  }
+
+  return false;
+}
+
+const privateConfig = getConfiguration(PRIVATE, templatePrivate);
+const botConfig = getConfiguration(BOT, templateConfig);
 
 module.exports = {
   getConfiguration,
   privateConfig,
-  botConfig
+  botConfig,
+  updateConfiguration,
+  PRIVATE,
+  BOT
 };

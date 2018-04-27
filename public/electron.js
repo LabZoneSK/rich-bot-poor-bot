@@ -9,11 +9,14 @@ const path = require('path');
 const url = require('url');
 
 const bot = require('./app/bot');
+const configuration = require('./app/configuration');
+
 
 let mainWindow;
 
 global.sharedObj = {
-  bot
+  bot,
+  configuration
 };
 
 const createWindow = () => {

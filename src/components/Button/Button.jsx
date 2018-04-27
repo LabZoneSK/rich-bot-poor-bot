@@ -5,7 +5,7 @@ import './Button.css';
 const Button = ({ name, click }) => (
   <button 
     className="btn btn-w-md btn-accent"
-    onClick={click} >
+    onClick={(e) => {click(e)}} >
     <span>{ name }</span>
   </button>
 )
