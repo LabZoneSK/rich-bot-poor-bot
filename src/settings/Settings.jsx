@@ -14,11 +14,13 @@ class Settings extends React.Component {
     const conf = electronVariables.remote.getGlobal('sharedObj').configuration;
     const configuration = conf.getConfiguration(conf.PRIVATE);
 
+
     this.state = {
       APIKey: configuration.APIKey,
       APISign: configuration.APISign,
       defaultPrecision: configuration.defaultPrecision,
-      CCApiURL: configuration.CCApiURL
+      CCApiURL: configuration.CCApiURL,
+      mode: (configuration.mode !== undefined)? configuration.mode : 'development'
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSaveSettings = this.handleSaveSettings.bind(this);
@@ -36,7 +38,8 @@ class Settings extends React.Component {
       APIKey: this.state.APIKey,
       APISign: this.state.APISign,
       defaultPrecision: this.state.defaultPrecision,
-      CCApiURL: this.state.CCApiURL
+      CCApiURL: this.state.CCApiURL,
+      mode: this.state.mode
     }
 
     const configuration = electronVariables.remote.getGlobal('sharedObj').configuration;
@@ -82,6 +85,33 @@ class Settings extends React.Component {
 
             <section className="col3">
               <h3 className="h5 white">Bot parameters</h3>
+
+              <div>
+                <p className="white">Please, select your bot mode</p>
+                <fieldset className="inline-form">
+                  <label className="light-grey">
+                    <input
+                      type="radio"
+                      value="development"
+                      name="mode"
+                      onChange={this.handleInputChange}
+                      checked={this.state.mode === 'development'}
+                    />
+                    Development
+                  </label>
+
+                  <label className="light-grey">
+                    <input
+                      type="radio"
+                      value="production"
+                      name="mode"
+                      onChange={this.handleInputChange}
+                      checked={this.state.mode === 'production'}
+                    />
+                    Production
+                  </label>
+                </fieldset>
+              </div>
 
               <div className="form-group">
                 <label>CryptoCompare API URL</label>

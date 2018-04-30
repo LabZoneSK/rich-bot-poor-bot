@@ -138,3 +138,17 @@ label {
   transition: none;
   background-color: #494b54;
 }
+
+fieldset.inline-form {
+  border: none;
+  padding: 0;
+}
+.inline-form {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.inline-form label {
+  cursor: pointer;
+  margin-right: 16px;
+}
