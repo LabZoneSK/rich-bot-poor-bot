@@ -78,7 +78,7 @@ class Dashboard extends React.Component {
 
         <div className="Dashboard-Main">
           <h3 className="h5 white">Log history</h3>
-          {this.state.messages.reverse()}
+          {this.state.messages}
           <Panel type="success" text="Bot has successfully started." />
           
         </div>
