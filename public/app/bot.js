@@ -7,12 +7,12 @@ let botRunning = false;
 let botIntervalID;
 let balance = null;
 
-const botLog = [];
+let botLog = [];
 
 const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision) => {
   console.log(amount);
   if (amount && parseFloat(amount).toFixed(3) > 0) {
-    console.log(`I am going to sell ${symbol} for ${price}. Amount is ${amount}`);
+    botLog.push(`I am going to sell ${symbol} for ${price}. Amount is ${amount}`);
 
     //Kraken uses XBT for BTC in tradeable pairs
     if (symbol === 'BTC') {
@@ -36,6 +36,14 @@ const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision
   }
 }
 
+const getBotLog = () => {
+  return botLog.pop();
+}
+
+const clearBotLog = () => {
+  botLog = [];
+}
+
 const run = () => {
   if(!botRunning) {
     //Bot should not run, it is stopped
@@ -50,7 +58,7 @@ const run = () => {
         if (price.EUR) {
           const isBelowTarget = price.EUR < assetData.target;
           if (isBelowTarget) {
-            console.log(`${assetData.symbol} is below target.`);
+            botLog.push(`${assetData.symbol} is below target.`);
             if (balance === null) {
               const balancePromise = kraken.getBalance();
               balancePromise.then((data) => {
@@ -65,7 +73,7 @@ const run = () => {
           }
 
         } else {
-          console.log(`Something went wrong. Cannot get price for ${asset.symbol}`);
+          botLog.push(`Something went wrong. Cannot get price for ${asset.symbol}`);
         }
       })
       .catch(error => console.log(error));
@@ -73,24 +81,21 @@ const run = () => {
 }
 
 const start = () => {
-  console.log('Bot has been started');
+  botLog.push('Bot has been started');
   botIntervalID = setInterval(() => run(), 20000);
   botRunning = true;
 };
 
 const stop = () => {
-  console.log('Bot has been stopped');
+  botLog.push('Bot has been stopped');
   clearInterval(botIntervalID);
   botRunning = false;
-};
-
-const clearMessages = () => {
-  botLog = [];
+  clearBotLog();
 };
 
 module.exports = {
-  botLog,
-  clearMessages,
+  getBotLog,
+  clearBotLog,
   start,
   stop
 };
