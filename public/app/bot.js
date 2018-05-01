@@ -1,5 +1,4 @@
 const cc = require('./utils/cc');
-const config = require('./config');
 const kraken = require('./exchanges/kraken');
 const { privateConfig } = require('./configuration');
 

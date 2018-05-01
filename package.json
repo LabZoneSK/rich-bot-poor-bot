@@ -22,6 +22,7 @@
     "eject": "react-scripts eject",
     "electron:start": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:pack": "build --win",
+    "electron:pack-linux": "build --linux",
     "preelectron-pack": "yarn build"
   },
   "devDependencies": {
