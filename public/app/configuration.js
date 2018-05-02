@@ -4,7 +4,7 @@ const path = require('path');
 const Store = require('electron-store');
 const store = new Store();
 
-const templatePrivate = {
+const privateTemplate = {
   environment: 'development',
   defaultPrecision: 2,
   CCApiURL : 'https://min-api.cryptocompare.com/data/',
@@ -12,7 +12,7 @@ const templatePrivate = {
   APISign: ''
 };
 
-const templateConfig = {
+const botTemplate = {
   "stoploss": {
     "enabled": true,
     "strategy": "stop-loss",
@@ -32,17 +32,23 @@ const getConfiguration = (key, template = '') => {
   return template;
 }
 
+const resetConfiguration = (key) => {
+  store.delete(key);
+  updateConfiguration(key, eval(`${key}Template`));
+}
+
 const updateConfiguration = (key, configuration) => {
   store.set(key, configuration);
 }
 
-const privateConfig = getConfiguration(PRIVATE, templatePrivate);
-const botConfig = getConfiguration(BOT, templateConfig);
+const privateConfig = getConfiguration(PRIVATE, privateTemplate);
+const botConfig = getConfiguration(BOT, botTemplate);
 
 module.exports = {
   getConfiguration,
   privateConfig,
   botConfig,
+  resetConfiguration,
   updateConfiguration,
   PRIVATE,
   BOT

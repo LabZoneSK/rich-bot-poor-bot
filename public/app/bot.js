@@ -1,6 +1,8 @@
 const cc = require('./utils/cc');
 const kraken = require('./exchanges/kraken');
-const { privateConfig, botConfig } = require('./configuration');
+
+const configuration = require('./configuration');
+const privateConfig = configuration.getConfiguration(configuration.PRIVATE);
 
 const Logger = require('./utils/logger');
 
@@ -30,9 +32,7 @@ const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision
         })
         .catch(error => console.log(error));
     } else {
-      console.log(`Selling ${symbol} by market price (${sellPrice}).`);
-      console.log(Logger.info(`Selling ${symbol} by market price (${sellPrice}).`))
-      //botLog.add(Logger.info(`Selling ${symbol} by market price (${sellPrice}).`));
+      Logger.info(`Selling ${symbol} by market price (${sellPrice}).`);
     }
   }
 }
@@ -51,8 +51,8 @@ const run = () => {
     return false;
   }
 
-  console.log(botConfig.stoploss.assets);
-  
+  const botConfig = configuration.getConfiguration(configuration.BOT);
+
   botConfig.stoploss.assets.map((asset) => {
     const assetData = asset;
     cc.getPrice(asset.symbol, 'EUR', 'CCAGG').then((data) => {
