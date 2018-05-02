@@ -2,16 +2,17 @@ const cc = require('./utils/cc');
 const kraken = require('./exchanges/kraken');
 const { privateConfig } = require('./configuration');
 
+const Logger = require('./utils/logger');
+
 let botRunning = false;
 let botIntervalID;
 let balance = null;
 
-let botLog = [];
+let botLog = new Set();
 
 const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision) => {
-  console.log(amount);
   if (amount && parseFloat(amount).toFixed(3) > 0) {
-    botLog.push(`I am going to sell ${symbol} for ${price}. Amount is ${amount}`);
+    botLog.add(Logger.info(`I am going to sell ${symbol} for ${price}. Amount is ${amount}`));
 
     //Kraken uses XBT for BTC in tradeable pairs
     if (symbol === 'BTC') {
@@ -30,17 +31,19 @@ const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision
         .catch(error => console.log(error));
     } else {
       console.log(`Selling ${symbol} by market price (${sellPrice}).`);
-      botLog.push(`Selling ${symbol} by market price (${sellPrice}).`);
+      console.log(Logger.info(`Selling ${symbol} by market price (${sellPrice}).`))
+      //botLog.add(Logger.info(`Selling ${symbol} by market price (${sellPrice}).`));
     }
   }
 }
 
 const getBotLog = () => {
-  return botLog.pop();
+  console.log(botLog);
+  return botLog;
 }
 
 const clearBotLog = () => {
-  botLog = [];
+  botLog = new Set();
 }
 
 const run = () => {
@@ -49,7 +52,6 @@ const run = () => {
     return false;
   }
   
-  console.log('Running bot logic.');
   config.stoploss.assets.map((asset) => {
     const assetData = asset;
     cc.getPrice(asset.symbol, 'EUR', 'CCAGG').then((data) => {
@@ -57,7 +59,7 @@ const run = () => {
         if (price.EUR) {
           const isBelowTarget = price.EUR < assetData.target;
           if (isBelowTarget) {
-            botLog.push(`${assetData.symbol} is below target.`);
+            botLog.add(Logger.info(`${assetData.symbol} is below target.`));
             if (balance === null) {
               const balancePromise = kraken.getBalance();
               balancePromise.then((data) => {
@@ -72,7 +74,7 @@ const run = () => {
           }
 
         } else {
-          botLog.push(`Something went wrong. Cannot get price for ${asset.symbol}`);
+          botLog.add(Logger.error(`Something went wrong. Cannot get price for ${asset.symbol}`));
         }
       })
       .catch(error => console.log(error));
@@ -80,13 +82,13 @@ const run = () => {
 }
 
 const start = () => {
-  botLog.push('Bot has been started');
+  botLog.add(Logger.info('Bot has been started'));
   botIntervalID = setInterval(() => run(), 20000);
   botRunning = true;
 };
 
 const stop = () => {
-  botLog.push('Bot has been stopped');
+  botLog.add(Logger.info('Bot has been stopped'));
   clearInterval(botIntervalID);
   botRunning = false;
   clearBotLog();

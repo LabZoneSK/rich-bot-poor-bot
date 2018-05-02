@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       botStarted: false,
-      messages: new Array()
+      messages: new Set()
     }
 
     this.handleBotButton = this.handleBotButton.bind(this);
@@ -35,31 +35,42 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    let index = 0;
     setInterval(() => {
       const msg = electronVariables.remote.getGlobal('sharedObj').bot.getBotLog();
       const { messages } = this.state;
       if(msg) {
-        messages.push(
-          <Panel key={Math.random()} type="info" text={index + msg} />
-        );
-        index++;
-
-        if(messages.length > 3) {
-          this.setState({
-            messages: this.state.messages.slice(1, 4)
-          })
-        } else {
+        msg.forEach((item) => {  
+          messages.add(
+            <Panel key={Math.random()} type={item.level} text={item.title} />
+          );
+  
           this.setState({
             messages: this.state.messages
-          })
-        }
+          });
+          /*
+          if(messages.length > 3) {
+            this.setState({
+              messages: this.state.messages.slice(1, 4)
+            })
+          } else {
+            this.setState({
+              messages: this.state.messages
+            })
+          }
+          */
+      });  
       }
+      electronVariables.remote.getGlobal('sharedObj').bot.clearBotLog();
     }, 2000);
   }
 
   render() {
     const botButtonText = (this.state.botStarted)? 'Stop bot' : 'Start bot';
+
+    let logMessages = [];
+    this.state.messages.forEach((item) => (
+      logMessages.push(item)
+    ));
 
     return (
       <div className="Dashboard">
@@ -78,9 +89,7 @@ class Dashboard extends React.Component {
 
         <div className="Dashboard-Main">
           <h3 className="h5 white">Log history</h3>
-          {this.state.messages}
-          <Panel type="success" text="Bot has successfully started." />
-          
+          {logMessages}
         </div>
 
       </div>
