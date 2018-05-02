@@ -1,6 +1,6 @@
 const cc = require('./utils/cc');
 const kraken = require('./exchanges/kraken');
-const { privateConfig } = require('./configuration');
+const { privateConfig, botConfig } = require('./configuration');
 
 const Logger = require('./utils/logger');
 
@@ -38,7 +38,6 @@ const sell =  (amount, symbol, price, precision = privateConfig.defaultPrecision
 }
 
 const getBotLog = () => {
-  console.log(botLog);
   return botLog;
 }
 
@@ -51,8 +50,10 @@ const run = () => {
     //Bot should not run, it is stopped
     return false;
   }
+
+  console.log(botConfig.stoploss.assets);
   
-  config.stoploss.assets.map((asset) => {
+  botConfig.stoploss.assets.map((asset) => {
     const assetData = asset;
     cc.getPrice(asset.symbol, 'EUR', 'CCAGG').then((data) => {
         const price = data;
@@ -82,13 +83,13 @@ const run = () => {
 }
 
 const start = () => {
-  botLog.add(Logger.info('Bot has been started'));
+  botLog.add(Logger.success('Bot has been started'));
   botIntervalID = setInterval(() => run(), 20000);
   botRunning = true;
 };
 
 const stop = () => {
-  botLog.add(Logger.info('Bot has been stopped'));
+  botLog.add(Logger.success('Bot has been stopped'));
   clearInterval(botIntervalID);
   botRunning = false;
   clearBotLog();
