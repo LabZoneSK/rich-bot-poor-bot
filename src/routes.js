@@ -17,7 +17,7 @@ const routes = [
   },
   {
     name: 'Assets',
-    path: '/assets',
+    path: '/assets/:action',
     component: Assets
   },
   {

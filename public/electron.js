@@ -8,6 +8,7 @@ const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 
+const asset = require('./app/utils/assets');
 const bot = require('./app/bot');
 const configuration = require('./app/configuration');
 
@@ -15,6 +16,7 @@ const configuration = require('./app/configuration');
 let mainWindow;
 
 global.sharedObj = {
+  asset,
   bot,
   configuration
 };

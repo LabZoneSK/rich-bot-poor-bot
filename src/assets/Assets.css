@@ -1,0 +1,17 @@
+.AssetItem {
+  background-color: rgba(68, 70, 79, 0.5);
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row;
+  margin-bottom: 8px;
+  padding: 16px;
+  width: 95%;
+}
+
+.AssetItem-section {
+  display: flex;
+  border-left: 1px solid #545868;
+  flex-direction: column;
+  padding: 0 16px;
+}

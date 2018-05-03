@@ -72,10 +72,42 @@ body {
   font-size: 16px;
 }
 
+.no-margin {
+  margin: 0;
+}
+
+.flex-g1 {
+  flex-grow: 1;
+}
+
+.flex-g2 {
+  flex-grow: 2;
+}
+
+.flex-g3 {
+  flex-grow: 2;
+}
+
+.flex-g4 {
+  flex-grow: 4;
+}
+
+.flex-g5 {
+  flex-grow: 4;
+}
+
+.flex-g6 {
+  flex-grow: 6;
+}
+
 /* Text colors */
 
 .white {
   color: white;
+}
+
+.gold {
+  color: #f6a821;
 }
 
 .light-grey {
@@ -143,6 +175,7 @@ fieldset.inline-form {
   border: none;
   padding: 0;
 }
+
 .inline-form {
   display: inline-block;
   margin-bottom: 16px;
@@ -151,4 +184,13 @@ fieldset.inline-form {
 .inline-form label {
   cursor: pointer;
   margin-right: 16px;
+}
+
+.Toolbar {
+  padding-top: 16px;
+}
+
+.icon {
+  height: 60px;
+  width: 60px;
 }
