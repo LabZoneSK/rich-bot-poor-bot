@@ -194,3 +194,7 @@ fieldset.inline-form {
   height: 60px;
   width: 60px;
 }
+
+.right {
+  float: right;
+}

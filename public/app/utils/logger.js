@@ -16,11 +16,11 @@ const success = (title, description='') => log(SUCCESS, title, description);
 
 const log = (level, title, description = '') => {
   const now = new Date();
-  title = now.toLocaleDateString("en-US") + ' ' + title;
+  title = title;
   const message = Object.assign(msgTemplate, {
     level,
     title,
-    date: now.toISOString(),
+    timestamp: now.toLocaleString('en-GB', { timeZone: 'UTC' }),
     description
   })
   return message;

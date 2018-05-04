@@ -39,9 +39,10 @@ class Dashboard extends React.Component {
       const msg = electronVariables.remote.getGlobal('sharedObj').bot.getBotLog();
       const { messages } = this.state;
       if(msg) {
-        msg.forEach((item) => {  
+        msg.forEach((item) => { 
+
           messages.add(
-            <Panel key={Math.random()} type={item.level} text={item.title} />
+            <Panel key={Math.random()} type={item.level} text={item.title} subheader={item.timestamp}/>
           );
   
           this.setState({

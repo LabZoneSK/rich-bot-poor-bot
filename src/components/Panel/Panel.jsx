@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Panel.css';
 
-const Panel = ({type, text}) => {
+const Panel = ({type, text, subheader}) => {
   
   let color = 'panel-c-default';
   switch(type) {
@@ -16,7 +16,7 @@ const Panel = ({type, text}) => {
 
   return (
     <div className={'panel ' + color}>
-      { text }
+      { text } <small className="right">| { subheader }</small>
     </div>
   );
 }
