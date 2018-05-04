@@ -12,6 +12,7 @@ Bot back-end is based on code created in this repository:
 To create GUI I have used (Electron)[https://electronjs.org/] which allows to build desktop applications 
 for Microsoft Windows, Linux or iOS written in JavaScript.
 
+For **DOCUMENTATION** see [Wiki](https://github.com/LabZoneSK/stop-loss-bot-GUI/wiki)
 
 ## Basic commands
 
