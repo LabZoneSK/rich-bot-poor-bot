@@ -29,15 +29,15 @@ Run the bot in development mode
 ---
  
 ```
-npm electron:start
+npm run electron:start
 ```
 
 Create desktop application
 ---
  
 ```
-npm preelectron-pack
-npm electron:pack
+npm run preelectron-pack
+npm run electron:pack
 ```
 
 If you want Linux desktop application
