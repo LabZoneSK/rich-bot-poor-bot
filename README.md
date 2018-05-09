@@ -44,8 +44,8 @@ If you want Linux desktop application
 ---
 
 ```
-npm preelectron-pack
-npm electron:pack-linux
+npm run preelectron-pack
+npm run electron:pack-linux
 ```
 
 **Current code is work in progress. Please, use with caution. Do not connect to
