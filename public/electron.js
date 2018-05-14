@@ -1,7 +1,8 @@
+const electron = require('electron');
 const {
   app,
   BrowserWindow,
-  ipcMain
+  ipcMain,
 } = require('electron');
 
 const isDev = require('electron-is-dev');
@@ -22,9 +23,11 @@ global.sharedObj = {
 };
 
 const createWindow = () => {
+
+  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: width,
+    height: height,
     webPreferences: {
       webSecurity: false
     }
@@ -36,7 +39,7 @@ const createWindow = () => {
       protocol: 'file:',
       slashes: true
     }));
-  }, 2000);
+  }, 500);
 
   if(isDev) {
     mainWindow.openDevTools();

@@ -13,8 +13,11 @@ class Dashboard extends React.Component {
   
   constructor(props) {
     super(props);
+
+    const botStatus = electronVariables.remote.getGlobal('sharedObj').bot.getBotStatus();
+
     this.state = {
-      botStarted: false,
+      botStarted: botStatus,
       messages: new Set()
     }
 

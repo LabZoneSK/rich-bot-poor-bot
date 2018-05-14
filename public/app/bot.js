@@ -95,7 +95,10 @@ const stop = () => {
   clearBotLog();
 };
 
+const getBotStatus = () => botRunning;
+
 module.exports = {
+  getBotStatus,
   getBotLog,
   clearBotLog,
   start,
