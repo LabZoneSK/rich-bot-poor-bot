@@ -15,7 +15,6 @@ import {ElectronContext, electronVariables} from './electron-context';
 import Header from './components/Header';
 
 const remote = window.require('electron').remote || {};
-const ipcRenderer = window.require('electron').ipcRenderer || {};
 
 class App extends Component {
   
@@ -39,8 +38,8 @@ class App extends Component {
                   <nav>
                     <div>
                       <ul className="nav">
-                        { routes.map((route) => (
-                          <li className="nav-category"><Link exact activeClassName="active" className="white not-decorated" to={ route.path }>{ route.name }</Link></li>
+                        { routes.map((route, index) => (
+                          <li key={'route-' + index} className="nav-category"><Link exact activeClassName="active" className="white not-decorated" to={ route.path }>{ route.name }</Link></li>
                         ))}
                       </ul>
                     </div>

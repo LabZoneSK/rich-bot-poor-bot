@@ -29,7 +29,7 @@ class AssetItem extends React.Component {
     return (
       <div className="AssetItem">
         <div className="flex-g1">
-          <img className="icon" src={ defaultLogo } />
+          <img className="icon" src={ defaultLogo } alt={'Logo for ' + symbol} />
         </div>
         <div className="flex-g2">
           <h4 className="no-margin h5 gold">{ symbol }</h4>
