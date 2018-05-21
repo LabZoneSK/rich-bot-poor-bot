@@ -14,7 +14,7 @@ import routes from './routes';
 /* Components */
 import Header from './components/Header';
 
-import configureStore from './store/createStore';
+import configureStore from './store/configureStore';
 const store = configureStore();
 
 const remote = window.require('electron').remote || {};
