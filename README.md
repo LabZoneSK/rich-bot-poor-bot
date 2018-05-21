@@ -1,10 +1,13 @@
 
-# Stop-loss Bot with GUI
+# Rich Bot, Poor Bot
 
 ## About
 
-This is simple bot to place sell order on Kraken exchange when price drops to configured target.
-It creates "safety net" to prevent you loss more than you want.
+This is simple tools set for trading and monitoring your digital assets portfolio a.k.a. cryptocurrencies. I have
+been inspired by great book from Robert Kiyosaki - Rich Dad, Poor Dad. This tool should provide suite of different
+trading bots and it should help you to manage and monitor your assets.
+
+**IMPORTANT** This code is draft and not ready for production yet! 
 
 Bot back-end is based on code created in this repository:
 [Stop-loss bot CLI](https://github.com/LabZoneSK/stop-loss-bot)
