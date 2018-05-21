@@ -39,7 +39,7 @@ const createWindow = () => {
       protocol: 'file:',
       slashes: true
     }));
-  }, 500);
+  }, 2000);
 
   if(isDev) {
     mainWindow.openDevTools();

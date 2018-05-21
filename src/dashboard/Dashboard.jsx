@@ -1,5 +1,8 @@
 import React from 'react';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as DashboardActions from './actions';
 
 import { electronVariables } from '../electron-context';
 
@@ -10,16 +13,12 @@ import ViewTitle from '../components/ViewTitle';
 
 import icon from './dashboard.svg';
 import './Dashboard.css';
-
-const mapState = state => ({
-  messages: state.dashboard.messages
-});
-
 class Dashboard extends React.Component {
   
   constructor(props) {
     super(props);
 
+    console.log(this.props);
     const botStatus = electronVariables.remote.getGlobal('sharedObj').bot.getBotStatus();
 
     this.state = {
@@ -46,17 +45,15 @@ class Dashboard extends React.Component {
   componentDidMount() {
     setInterval(() => {
       const msg = electronVariables.remote.getGlobal('sharedObj').bot.getBotLog();
-      const { messages } = this.state;
+     
       if(msg) {
         msg.forEach((item) => { 
+          console.log(item);
 
-          messages.add(
+          this.props.addMessage(
             <Panel key={Math.random()} type={item.level} text={item.title} subheader={item.timestamp}/>
           );
   
-          this.setState({
-            messages: this.state.messages
-          });
           /*
           if(messages.length > 3) {
             this.setState({
@@ -76,11 +73,12 @@ class Dashboard extends React.Component {
 
   render() {
     const botButtonText = (this.state.botStarted)? 'Stop bot' : 'Start bot';
-
+    const { messages } = this.props;
+    
     let logMessages = [];
-    this.state.messages.forEach((item) => (
-      logMessages.push(item)
-    ));
+    for (let iterator = messages.values(), message = null; message = iterator.next().value; ) {
+      logMessages.push(message);
+    }
 
     return (
       <div className="Dashboard">
@@ -107,4 +105,17 @@ class Dashboard extends React.Component {
   }
 }
 
-export default connect(mapState)(Dashboard);
+/* Container part */
+const mapStateToProps = (state) => {
+  return {
+    ...state.dashboard,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    ...DashboardActions,
+  }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
