@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import './App.css';
 
 import {
@@ -9,10 +10,12 @@ import {
 } from 'react-router-dom';
 
 import routes from './routes';
-import {ElectronContext, electronVariables} from './electron-context';
 
 /* Components */
 import Header from './components/Header';
+
+import configureStore from './store/createStore';
+const store = configureStore();
 
 const remote = window.require('electron').remote || {};
 
@@ -28,7 +31,7 @@ class App extends Component {
 
   render() {
     return (
-      <ElectronContext.Provider value={electronVariables}>
+      <Provider store={store}>
         <Router>
           <div className="App">
             <div className="App-Body">
@@ -60,7 +63,7 @@ class App extends Component {
             </div>
           </div>
         </Router>
-      </ElectronContext.Provider>
+      </Provider>
     );
   }
 }

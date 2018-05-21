@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { electronVariables } from '../electron-context';
 
 import Button  from '../components/Button';
@@ -8,6 +10,10 @@ import ViewTitle from '../components/ViewTitle';
 
 import icon from './dashboard.svg';
 import './Dashboard.css';
+
+const mapState = state => ({
+  messages: state.dashboard.messages
+});
 
 class Dashboard extends React.Component {
   
@@ -101,4 +107,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default connect(mapState)(Dashboard);
