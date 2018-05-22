@@ -15,3 +15,12 @@
   flex-direction: column;
   padding: 0 16px;
 }
+
+.error {
+  color: #FFD2D2;
+  margin: 8px 0px;
+  padding: 8px;
+  background-color: #D8000C;
+  border-radius: 3px;
+  opacity: 0.8;
+}

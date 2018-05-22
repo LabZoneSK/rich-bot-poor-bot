@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 import { electronVariables } from '../electron-context';
-import { handleInputChangesGeneric } from '../utils/FormUtils';
+import { handleInputChangesGeneric, isNumber } from '../utils/FormUtils';
 
 import Button from '../components/Button';
 
@@ -17,16 +17,61 @@ class AssetForm extends React.Component {
     this.state = {
       symbol: asset.symbol || '',
       kraken: asset.kraken || '',
-      target: asset.target || 0.0
+      target: asset.target || 0.0,
+      krakenError: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSaveChanges = this.handleSaveChanges.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   handleInputChange(e) {
     handleInputChangesGeneric(e, this);
   }
+
+  validate(e) {
+    const { name, value } = e.target;
+    switch(name) {
+      case 'kraken':
+        if(value.length === 0 || value.length > 4) {
+          this.setState({
+            krakenError: 'Kraken symbol should not be empty and should have proper value.'
+          })
+        } else {
+          this.setState({
+            krakenError: false
+          })
+        }
+        return;
+      case 'symbol':
+        if(value.length === 0 || value.length > 4) {
+          this.setState({
+            symbolError: 'Symbol should not be empty and should have proper value.'
+          })
+        } else {
+          this.setState({
+            symbolError: false
+          })
+        }
+        return;
+      case 'target':
+        if(!isNumber(value)) {
+          this.setState({
+            targetError: 'Price should be number.'
+          })
+        } else {
+          this.setState({
+            targetError: false
+          })
+        }
+        return;
+      default:
+        return;
+    }
+    console.log(e.target);
+  }
+
   handleSaveChanges(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -70,7 +115,9 @@ class AssetForm extends React.Component {
             value={this.state.symbol}
             name="symbol"
             onChange={this.handleInputChange}
+            onBlur={this.validate}
           />
+          {this.state.symbolError && <div className="error">{this.state.symbolError}</div> }
         </div>
 
         <div className="form-group">
@@ -81,7 +128,9 @@ class AssetForm extends React.Component {
             value={this.state.kraken}
             name="kraken"
             onChange={this.handleInputChange}
+            onBlur={this.validate}
           />
+          {this.state.krakenError && <div className="error">{this.state.krakenError}</div> }
         </div>
 
         <div className="form-group">
@@ -92,7 +141,9 @@ class AssetForm extends React.Component {
             value={this.state.target}
             name="target"
             onChange={this.handleInputChange}
+            onBlur={this.validate}
           />
+          {this.state.targetError && <div className="error">{this.state.targetError}</div> }
         </div>
 
         <div className="Settings-Toolbar">
