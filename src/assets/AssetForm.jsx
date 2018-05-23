@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 
 import { electronVariables } from "../electron-context";
-import { parsePrice } from '../utils/NumberUtils';
+import { parsePrice } from "../utils/NumberUtils";
 import { handleInputChangesGeneric, validatePrice } from "../utils/FormUtils";
 
 import Button from "../components/Button";
@@ -31,8 +31,7 @@ class AssetForm extends React.Component {
     handleInputChangesGeneric(e, this);
   }
 
-  validate(e) {
-    const { name, value } = e.target;
+  validateFieldValue(name, value) {
     switch (name) {
       case "kraken":
         if (value.length === 0 || value.length > 4) {
@@ -40,45 +39,61 @@ class AssetForm extends React.Component {
             krakenError:
               "Kraken symbol should not be empty and should have proper value.",
           });
+          return false;
         } else {
           this.setState({
             krakenError: false,
           });
+          return true;
         }
-        return;
       case "symbol":
         if (value.length === 0 || value.length > 4) {
           this.setState({
             symbolError:
               "Symbol should not be empty and should have proper value.",
           });
+          return false;
         } else {
           this.setState({
             symbolError: false,
           });
+          return true;
         }
-        return;
       case "target":
         const price = parsePrice(value);
         if (validatePrice(price)) {
           this.setState({
             targetError: "Price should be number.",
           });
+          return false;
         } else {
           this.setState({
             target: price,
             targetError: false,
           });
+          return true;
         }
-        return;
       default:
-        return;
+        return false;
     }
+  }
+
+  validate(e) {
+    const { name, value } = e.target;
+    this.validateFieldValue(name, value);
   }
 
   handleSaveChanges(e) {
     e.preventDefault();
     e.stopPropagation();
+
+    if (
+      !this.validateFieldValue("kraken", this.state.kraken) |
+      !this.validateFieldValue("symbol", this.state.symbol) |
+      !this.validateFieldValue("target", this.state.target)
+    ) {
+      return false;
+    }
 
     const asset = electronVariables.remote.getGlobal("sharedObj").asset;
 
