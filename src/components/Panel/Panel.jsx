@@ -12,6 +12,8 @@ const Panel = ({type, text, subheader}) => {
     case 'success':
       color = 'panel-c-success';
       break;
+    default:
+      color = '';
   }
 
   return (

@@ -1,4 +1,9 @@
 import React from 'react';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as DashboardActions from './actions';
+
 import { electronVariables } from '../electron-context';
 
 import Button  from '../components/Button';
@@ -8,13 +13,16 @@ import ViewTitle from '../components/ViewTitle';
 
 import icon from './dashboard.svg';
 import './Dashboard.css';
-
 class Dashboard extends React.Component {
   
   constructor(props) {
     super(props);
+
+    console.log(this.props);
+    const botStatus = electronVariables.remote.getGlobal('sharedObj').bot.getBotStatus();
+
     this.state = {
-      botStarted: false,
+      botStarted: botStatus,
       messages: new Set()
     }
 
@@ -37,17 +45,15 @@ class Dashboard extends React.Component {
   componentDidMount() {
     setInterval(() => {
       const msg = electronVariables.remote.getGlobal('sharedObj').bot.getBotLog();
-      const { messages } = this.state;
+     
       if(msg) {
         msg.forEach((item) => { 
+          console.log(item);
 
-          messages.add(
+          this.props.addMessage(
             <Panel key={Math.random()} type={item.level} text={item.title} subheader={item.timestamp}/>
           );
   
-          this.setState({
-            messages: this.state.messages
-          });
           /*
           if(messages.length > 3) {
             this.setState({
@@ -67,12 +73,15 @@ class Dashboard extends React.Component {
 
   render() {
     const botButtonText = (this.state.botStarted)? 'Stop bot' : 'Start bot';
-
+    const { messages } = this.props;
+    
     let logMessages = [];
-    this.state.messages.forEach((item) => (
-      logMessages.push(item)
-    ));
+    for (let iterator =messages.values(), message = null; message = iterator.next().value; ) {
+      logMessages.push(message);
+    }
+    logMessages.reverse();
 
+    
     return (
       <div className="Dashboard">
         <ViewTitle
@@ -90,7 +99,9 @@ class Dashboard extends React.Component {
 
         <div className="Dashboard-Main">
           <h3 className="h5 white">Log history</h3>
-          {logMessages}
+          <div className="Dashboard-LogMessages">
+            {logMessages}
+          </div>
         </div>
 
       </div>
@@ -98,4 +109,17 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+/* Container part */
+const mapStateToProps = (state) => {
+  return {
+    ...state.dashboard,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    ...DashboardActions,
+  }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

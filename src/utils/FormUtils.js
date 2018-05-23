@@ -13,3 +13,21 @@ export function handleInputChangesGeneric(event, self) {
     [name]: value
   });
 }
+
+export function validatePrice(value) {
+  if (!isNumber(value)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isNumber(value) {
+  if ((undefined === value) || (null === value)) {
+    return false;
+  }
+  if (typeof value == 'number') {
+    return true;
+  }
+  return !isNaN(value - 0);
+}

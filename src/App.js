@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import './App.css';
 
 import {
@@ -9,13 +10,14 @@ import {
 } from 'react-router-dom';
 
 import routes from './routes';
-import {ElectronContext, electronVariables} from './electron-context';
 
 /* Components */
 import Header from './components/Header';
 
+import configureStore from './store/configureStore';
+const store = configureStore();
+
 const remote = window.require('electron').remote || {};
-const ipcRenderer = window.require('electron').ipcRenderer || {};
 
 class App extends Component {
   
@@ -29,7 +31,7 @@ class App extends Component {
 
   render() {
     return (
-      <ElectronContext.Provider value={electronVariables}>
+      <Provider store={store}>
         <Router>
           <div className="App">
             <div className="App-Body">
@@ -39,8 +41,8 @@ class App extends Component {
                   <nav>
                     <div>
                       <ul className="nav">
-                        { routes.map((route) => (
-                          <li className="nav-category"><Link exact activeClassName="active" className="white not-decorated" to={ route.path }>{ route.name }</Link></li>
+                        { routes.map((route, index) => (
+                          <li key={'route-' + index} className="nav-category"><Link exact activeClassName="active" className="white not-decorated" to={ route.path }>{ route.name }</Link></li>
                         ))}
                       </ul>
                     </div>
@@ -61,7 +63,7 @@ class App extends Component {
             </div>
           </div>
         </Router>
-      </ElectronContext.Provider>
+      </Provider>
     );
   }
 }
