@@ -76,10 +76,12 @@ class Dashboard extends React.Component {
     const { messages } = this.props;
     
     let logMessages = [];
-    for (let iterator = messages.values(), message = null; message = iterator.next().value; ) {
+    for (let iterator =messages.values(), message = null; message = iterator.next().value; ) {
       logMessages.push(message);
     }
+    logMessages.reverse();
 
+    
     return (
       <div className="Dashboard">
         <ViewTitle
@@ -97,7 +99,9 @@ class Dashboard extends React.Component {
 
         <div className="Dashboard-Main">
           <h3 className="h5 white">Log history</h3>
-          {logMessages}
+          <div className="Dashboard-LogMessages">
+            {logMessages}
+          </div>
         </div>
 
       </div>

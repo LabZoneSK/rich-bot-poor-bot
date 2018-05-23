@@ -6,3 +6,8 @@
 .Dashboard-Toolbar {
   margin: 16px 0;
 }
+
+.Dashboard-LogMessages {
+  overflow-y: scroll;
+  height: 400px;
+}
